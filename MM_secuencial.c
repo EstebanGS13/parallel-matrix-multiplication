@@ -70,7 +70,7 @@ void free_memory(int n, int **M) {
 
 int main(int argc, char const *argv[]) {
     if (argc != 2) {
-        fprintf(stderr, "Ejecutar dando el 'n' de las matrices, ejemplo: MM_secuencial 400");
+        fprintf(stderr, "Error. Ejecutar dando el 'n' de las matrices.\nEjemplo: MM_secuencial 400");
         return -1;
     }
 
@@ -80,23 +80,27 @@ int main(int argc, char const *argv[]) {
     // Inicializar las matrices
     int **A = init_matrix(n, 1);
     int **B = init_matrix(n, 1);
-
     int **C = init_matrix(n, 0);
-
-    // Imprimir las matrices
-    // print_matrix(n, A);
-    // print_matrix(n, B);
 
     // Comenzar a medir el tiempo
     double begin = get_cpu_time();
 
     // Calcular multiplicación
     multiplication(n, A, B, C);
-    // print_matrix(n, C);
 
     // Detener la medición del tiempo y calcular el tiempo transcurrido
     double end = get_cpu_time();
     double elapsed = (end - begin);
+
+    // Imprimir las matrices
+    if (n <= 10) {
+        printf("Matriz A:\n");
+        print_matrix(n, A);
+        printf("Matriz B:\n");
+        print_matrix(n, B);
+        printf("Matriz C:\n");
+        print_matrix(n, C);
+    }
 
     printf("Time measured: %.3f seconds.\n", elapsed);
 
@@ -106,9 +110,9 @@ int main(int argc, char const *argv[]) {
     free_memory(n, C);
 
     // Escribir resultados en un archivo
-    FILE *file = fopen("elapsed.csv", "a");
+    FILE *file = fopen("elapsed_seq.csv", "a");
     if (file == NULL) {
-        printf("No se puede abrir elapsed.csv");
+        printf("No se puede abrir elapsed_seq.csv");
         return -1;
     }
     fprintf(file, "%d, %f\n", n, elapsed);
