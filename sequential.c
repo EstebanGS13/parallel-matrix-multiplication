@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-
 #include "matrix_functions.h"
 
 void multiplication(int n, int **A, int **B, int **C) {
