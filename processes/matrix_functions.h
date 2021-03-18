@@ -1,30 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef _WIN32
-#include <processthreadsapi.h>
+// #ifdef _WIN32
+// #include <processthreadsapi.h>
 
-double get_cpu_time() {
-    FILETIME a, b, c, d;
-    if (GetProcessTimes(GetCurrentProcess(), &a, &b, &c, &d) != 0) {
-        //  Returns total user time.
-        //  Can be tweaked to include kernel times as well.
-        return (double)(d.dwLowDateTime | ((unsigned long long)d.dwHighDateTime << 32)) * 0.0000001;
-    } else {
-        //  Handle error
-        printf("Error while calculating CPU time.");
-        return 0;
-    }
-}
+// double get_cpu_time() {
+//     FILETIME a, b, c, d;
+//     if (GetProcessTimes(GetCurrentProcess(), &a, &b, &c, &d) != 0) {
+//         //  Returns total user time.
+//         //  Can be tweaked to include kernel times as well.
+//         return (double)(d.dwLowDateTime | ((unsigned long long)d.dwHighDateTime << 32)) * 0.0000001;
+//     } else {
+//         //  Handle error
+//         printf("Error while calculating CPU time.");
+//         return 0;
+//     }
+// }
 
-#else
+// #else
 #include <time.h>
 
 double get_cpu_time(){
     return (double)clock() / CLOCKS_PER_SEC;
 }
 
-#endif
+// #endif
 
 int **init_matrix(int n, int fill) {
     // Crea un puntero a punteros (por cada fila)
@@ -39,6 +39,11 @@ int **init_matrix(int n, int fill) {
         if (fill) {
             for (j = 0; j < n; j++) {
                 M[i][j] = 1 + rand() % 10;
+            }
+        }
+        else {
+            for (j = 0; j < n; j++) {
+                M[i][j] = 0;
             }
         }
     }

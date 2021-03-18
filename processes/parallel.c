@@ -18,7 +18,6 @@ void *multiplication(void *arg) {
 
     for (i = start_row; i < end_row; i++) {
         for (j = 0; j < n; j++) {
-            C[i][j] = 0;
             for (k = 0; k < n; k++) {
                 C[i][j] += A[i][k] * B[k][j];
             }
