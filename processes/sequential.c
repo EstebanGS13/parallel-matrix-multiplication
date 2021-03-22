@@ -17,7 +17,7 @@ void multiplication(int n, int **A, int **B, int **C) {
 
 int main(int argc, char const *argv[]) {
     if (argc != 2) {
-        fprintf(stderr, "Error. Ejecutar dando el 'n' de las matrices.\nEjemplo: MM_secuencial 400");
+        fprintf(stderr, "Error. Ejecutar dando el 'n' de las matrices.\nEjemplo: seq 400");
         return -1;
     }
 
