@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/resource.h>
 #include <sys/shm.h>
 #include <sys/wait.h>
 #include <time.h>
@@ -52,10 +53,8 @@ int main(int argc, char const *argv[]) {
     // Inicializar las matrices
     int **A = init_matrix(n, 1);
     int **B = init_matrix(n, 1);
-    // int **C = init_matrix(n, 0);
 
     // 1. Crear segmento de memoria compartida
-    // TODO: verificar sizeof
     int segment = shmget(IPC_PRIVATE, (n * n * sizeof(int)), IPC_CREAT | 0666);
     if (segment < 0) {
         perror("shmget error");
@@ -66,10 +65,6 @@ int main(int argc, char const *argv[]) {
     // 2. Crear los procesos hijos
     int parent_id = getpid();
     int process;
-
-    // Comenzar a medir el tiempo
-    double begin = get_cpu_time();
-
     for (int i = 0; i < num_processes; i++) {
         if (fork() == 0) {  // Si se ejecuta el proceso hijo
             process = i;
@@ -100,19 +95,20 @@ int main(int argc, char const *argv[]) {
         printf("Process %d detached the segment %d\n", getpid(), segment);
 
         // 6. Terminar el proceso
-        exit(0);
+        return 0;
 
     } else {
         // Se ejecuta el proceso padre
         for (int i = 0; i < num_processes; i++) {
-            // Esperar a que los procesos terminen
-            wait(NULL);
+            wait(NULL);  // Esperar a que los procesos terminen
         }
     }
 
-    // Detener la medición del tiempo y calcular el tiempo transcurrido
-    double end = get_cpu_time();
-    double elapsed = (end - begin);
+    // Medir el CPU time
+    struct rusage usage;
+    struct timeval cpu_time;
+    getrusage(RUSAGE_CHILDREN, &usage);
+    cpu_time = usage.ru_utime;
 
     // Imprimir las matrices
     if (n <= 10) {
@@ -123,7 +119,7 @@ int main(int argc, char const *argv[]) {
         printf("Matriz C:\n");
         print_C(n, shared_C);
     }
-    printf("Time measured: %.3f seconds.\n", elapsed);
+    printf("Time measured: %ld.%ld seconds.\n", cpu_time.tv_sec, cpu_time.tv_usec);
 
     // Escribir resultados en un archivo
     FILE *file = fopen("elapsed_par_proc.csv", "a");
@@ -131,7 +127,7 @@ int main(int argc, char const *argv[]) {
         printf("No se puede abrir elapsed_par_proc.csv.csv");
         return -1;
     }
-    fprintf(file, "%d, %d, %f\n", num_processes, n, elapsed);
+    fprintf(file, "%d, %d, %ld.%ld\n", num_processes, n, cpu_time.tv_sec, cpu_time.tv_usec);
     fclose(file);
 
     // Separar el segmento del proceso padre
