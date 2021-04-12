@@ -4,6 +4,17 @@
 
 #include "matrix_functions.h"
 
+void row_wise_multiplication(int n, int **A, int **B, int **C) {
+    int i, j, k;
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            for (k = 0; k < n; k++) {
+                C[i][j] += A[i][k] * B[j][k];
+            }
+        }
+    }
+}
+
 void multiplication(int n, int **A, int **B, int **C) {
     int i, j, k;
     for (i = 0; i < n; i++) {
@@ -16,13 +27,14 @@ void multiplication(int n, int **A, int **B, int **C) {
 }
 
 int main(int argc, char const *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "Error. Ejecutar dando el 'n' de las matrices.\nEjemplo: seq 400");
+    if (argc != 3) {
+        fprintf(stderr, "Error. Ejecutar dando el 'n' de las matrices y el tipo de mult.\nEjemplo: seq 400 1");
         return -1;
     }
 
     srand(time(NULL));
     int n = atoi(argv[1]);
+    int mult_type = atoi(argv[2]);
 
     // Inicializar las matrices
     int **A = init_matrix(n, 1);
@@ -33,7 +45,11 @@ int main(int argc, char const *argv[]) {
     double begin = get_cpu_time();
 
     // Calcular multiplicación
-    multiplication(n, A, B, C);
+    if (mult_type) {
+        row_wise_multiplication(n, A, B, C);
+    } else {
+        multiplication(n, A, B, C);
+    }
 
     // Detener la medición del tiempo y calcular el tiempo transcurrido
     double end = get_cpu_time();
@@ -57,7 +73,13 @@ int main(int argc, char const *argv[]) {
     free_memory(n, C);
 
     // Escribir resultados en un archivo
-    FILE *file = fopen("elapsed_seq.csv", "a");
+    FILE *file;
+    if (mult_type) {
+        file = fopen("row_wise_mult.csv", "a");
+    } else {
+        file = fopen("normal_mult.csv", "a");
+    }
+
     if (file == NULL) {
         printf("No se puede abrir elapsed_seq.csv");
         return -1;
