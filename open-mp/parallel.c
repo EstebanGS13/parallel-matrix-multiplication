@@ -25,20 +25,20 @@ int main(int argc, char const *argv[]) {
     int **B = init_matrix(n, 1);
     int **C = init_matrix(n, 0);
 
-    int i, j, k;
-
     // Comenzar a medir el tiempo
     double begin = get_cpu_time();
 
     // Calcular multiplicación (con optimización de cache line)
-    #pragma omp parallel num_threads(num_of_threads) shared(A, B, C, n) private(i, j, k)
+    #pragma omp parallel num_threads(num_of_threads) shared(A, B, C, n)
     {
         #pragma omp for
-        for (i = 0; i < n; i++) {
-            for (j = 0; j < n; j++) {
-                for (k = 0; k < n; k++) {
-                    C[i][j] += A[i][k] * B[j][k];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                int sum = 0;
+                for (int k = 0; k < n; k++) {
+                    sum += A[i][k] * B[j][k];
                 }
+                C[i][j] = sum;
             }
         }
     }
