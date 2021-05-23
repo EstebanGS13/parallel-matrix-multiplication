@@ -75,13 +75,13 @@ int main(int argc, char const *argv[]) {
     // Escribir resultados en un archivo
     FILE *file;
     if (mult_type) {
-        file = fopen("row_wise_mult.csv", "a");
+        file = fopen("sequential.csv", "a");
     } else {
         file = fopen("normal_mult.csv", "a");
     }
 
     if (file == NULL) {
-        printf("No se puede abrir elapsed_seq.csv");
+        printf("No se puede abrir sequential.csv");
         return -1;
     }
     fprintf(file, "%d, %f\n", n, elapsed);

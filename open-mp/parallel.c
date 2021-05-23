@@ -64,9 +64,9 @@ int main(int argc, char const *argv[]) {
     free_memory(n, C);
 
     // Escribir resultados en un archivo
-    FILE *file = fopen("par.csv", "a");
+    FILE *file = fopen("parallel.csv", "a");
     if (file == NULL) {
-        printf("No se puede abrir elapsed_par.csv");
+        printf("No se puede abrir parallel.csv");
         return -1;
     }
     fprintf(file, "%d, %d, %f\n", num_of_threads, n, elapsed);

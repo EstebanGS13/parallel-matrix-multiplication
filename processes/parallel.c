@@ -35,7 +35,7 @@ void print_C(int n, int *C) {
 
 int main(int argc, char const *argv[]) {
     if (argc != 3) {
-        fprintf(stderr, "Error. Entregar el 'n' y el numero de procesos.\nEjemplo: parallel 400 4");
+        fprintf(stderr, "Error. Entregar el 'n' y el numero de procesos.\nEjemplo: par 400 4");
         return -1;
     }
 
@@ -122,9 +122,9 @@ int main(int argc, char const *argv[]) {
     printf("Time measured: %ld.%ld seconds.\n", cpu_time.tv_sec, cpu_time.tv_usec);
 
     // Escribir resultados en un archivo
-    FILE *file = fopen("elapsed_par_proc.csv", "a");
+    FILE *file = fopen("parallel.csv", "a");
     if (file == NULL) {
-        printf("No se puede abrir elapsed_par_proc.csv.csv");
+        printf("No se puede abrir parallel.csv");
         return -1;
     }
     fprintf(file, "%d, %d, %ld.%ld\n", num_processes, n, cpu_time.tv_sec, cpu_time.tv_usec);

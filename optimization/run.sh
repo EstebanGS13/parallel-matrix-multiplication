@@ -38,4 +38,5 @@ for i in {1..10}; do
         ./o3fun $j 1
     done
 done
-mv row_wise_mult.csv o3fun.csv
+mv row_wise_mult.csv o3funroll-loops.csv
+mv row_mult.csv row_wise_mult.csv

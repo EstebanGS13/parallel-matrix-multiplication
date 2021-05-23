@@ -81,7 +81,7 @@ int main(int argc, char const *argv[]) {
     }
 
     if (file == NULL) {
-        printf("No se puede abrir elapsed_seq.csv");
+        printf("No se puede abrir el archivo.csv");
         return -1;
     }
     fprintf(file, "%d, %f\n", n, elapsed);

@@ -29,7 +29,7 @@ void *multiplication(void *arg) {
 
 int main(int argc, char const *argv[]) {
     if (argc != 3) {
-        fprintf(stderr, "Error. Entregar el 'n' y el numero de hilos.\nEjemplo: MM_paralela 400 4");
+        fprintf(stderr, "Error. Entregar el 'n' y el numero de hilos.\nEjemplo: par 400 4");
         return -1;
     }
 
@@ -91,9 +91,9 @@ int main(int argc, char const *argv[]) {
     free_memory(n, C);
 
     // Escribir resultados en un archivo
-    FILE *file = fopen("elapsed_par.csv", "a");
+    FILE *file = fopen("parallel.csv", "a");
     if (file == NULL) {
-        printf("No se puede abrir elapsed_par.csv");
+        printf("No se puede abrir parallel.csv");
         return -1;
     }
     fprintf(file, "%d, %d, %f\n", num_threads, n, elapsed);

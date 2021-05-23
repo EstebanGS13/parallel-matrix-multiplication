@@ -18,7 +18,7 @@ void multiplication(int n, int **A, int **B, int **C) {
 
 int main(int argc, char const *argv[]) {
     if (argc != 2) {
-        fprintf(stderr, "Error. Ejecutar dando el 'n' de las matrices.\nEjemplo: MM_secuencial 400");
+        fprintf(stderr, "Error. Ejecutar dando el 'n' de las matrices.\nEjemplo: seq 400");
         return -1;
     }
 
@@ -58,9 +58,9 @@ int main(int argc, char const *argv[]) {
     free_memory(n, C);
 
     // Escribir resultados en un archivo
-    FILE *file = fopen("elapsed_seq.csv", "a");
+    FILE *file = fopen("sequential.csv", "a");
     if (file == NULL) {
-        printf("No se puede abrir elapsed_seq.csv");
+        printf("No se puede abrir sequential.csv");
         return -1;
     }
     fprintf(file, "%d, %f\n", n, elapsed);
