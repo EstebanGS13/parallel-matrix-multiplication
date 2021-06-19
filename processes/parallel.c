@@ -148,6 +148,7 @@ int main(int argc, char const *argv[]) {
     // Liberar la memoria usada
     free_memory(n, A);
     free_memory(n, B);
+    free(C);
 
     return 0;
 }
