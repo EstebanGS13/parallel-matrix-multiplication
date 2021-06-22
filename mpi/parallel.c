@@ -79,6 +79,7 @@ int main(int argc, char const *argv[]) {
 
     // Comenzar a medir el tiempo
     double begin = get_cpu_time();
+    MPI_Barrier(MPI_COMM_WORLD);
     double wall_start = MPI_Wtime();
 
     // Calcular multiplicación
@@ -124,7 +125,7 @@ int main(int argc, char const *argv[]) {
             printf("No se puede abrir parallel.csv");
             return -1;
         }
-        fprintf(file, "%d, %f, %f\n", n, elapsed, wall_time);
+        fprintf(file, "%d, %d, %f, %f\n", num_processes, n, elapsed, wall_time);
         fclose(file);
     }
 
